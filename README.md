@@ -1,1 +1,1 @@
-# dsg-store-locations
+# An analysis of Dick's Sporting Goods Stores in the US
