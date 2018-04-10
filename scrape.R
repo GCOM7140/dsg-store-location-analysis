@@ -13,6 +13,7 @@ library(qdapRegex) # for ex_between()
 library(tidyverse)
 # install.packages("pbapply")
 library(pbapply) # for progress bars
+library(here)
 
 # Now let's create a function called `get_urls` that we can use to scrape State
 # URLs from http://stores.dickssportinggoods.com/.
@@ -155,4 +156,4 @@ dsg_stores <- do.call(rbind, store_info) %>%
 #' Finally, let's write the data to a .csv file called "dsg_stores.csv" that can
 #' later be wrangled, transformed, visualized, and modeled.
 
-write_csv(dsg_stores, "dsg_stores.csv")
+write_csv(dsg_stores, here("data", "dsg_stores.csv"))
