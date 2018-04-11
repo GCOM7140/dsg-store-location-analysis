@@ -31,7 +31,7 @@ state_urls <- get_urls("http://stores.dickssportinggoods.com/")
 head(state_urls)
 ```
 
-Let's now use `get_urls()` to scrape the city URLs that can be found at each State URL of `state_urls` (e.g., <https://stores.dickssportinggoods.com/al/>). The `lapply()` function allows us to loop `get_urls()` through the State URLs in `state_urls`. Scraping the store URLs will likely take a minute or so to run.
+Let's now use `get_urls()` to scrape the city URLs that can be found at each State URL of `state_urls`. The `lapply()` function allows us to loop `get_urls()` through the State URLs in `state_urls`. Scraping the store URLs will likely take a minute or so to run.
 
 ``` r
 # scraping city URLs should take about a minute to run
@@ -40,7 +40,7 @@ city_urls <- lapply(state_urls, get_urls) %>% unlist()
 head(city_urls)
 ```
 
-Now let's create a second function called `get_urls2()`. We'll use this function to scrape store URLs from the city URLs in `city_urls`. An example store URL is <http://stores.dickssportinggoods.com/al/alabaster/1078/>.
+Now let's create a second function called `get_urls2()`. We'll use this function to scrape store URLs from the city URLs in `city_urls`.
 
 ``` r
 get_urls2 <- function(x){
@@ -54,7 +54,7 @@ get_urls2 <- function(x){
 }
 ```
 
-Let's use `pblapply()` to loop `get_urls2()` through the city URLs in `city_urls`, because it will give us a progress bar. Scraping the store URLs will likely take in the neighborhood of 15 minutes.
+Let's use `pblapply()` to loop `get_urls2()` through `city_urls`, because it will give us a progress bar. Scraping the store URLs will likely take in the neighborhood of 15 minutes.
 
 ``` r
 store_urls <- pblapply(city_urls, get_urls2) %>% unlist()
@@ -62,7 +62,7 @@ store_urls <- pblapply(city_urls, get_urls2) %>% unlist()
 head(store_urls)
 ```
 
-Now we have a vector of URLs for every Dick's Sporting Goods store in the US. From these websites, we can scrape address and geo-location information. How about we scrape each store's id, name, address, city, state, zip, country, phone, latitude, and longitude? As an example, here is the code we're interested in regarding the Stony Point Pkwy store on [Richmond's city website](http://stores.dickssportinggoods.com/va/richmond/):
+Now we have a vector of URLs for every Dick's Sporting Goods store in the US. From these websites, we can scrape address and geo-location information. How about we scrape each store's id, name, address, city, state, zip, country, phone, latitude, and longitude? Here's the code we're interested in scraping for one of [Richmond's locations](http://stores.dickssportinggoods.com/va/richmond/):
 
 ------------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ Now we have a vector of URLs for every Dick's Sporting Goods store in the US. Fr
 
 ------------------------------------------------------------------------
 
-Knowing this structure, we can create a function called `get_store_info()` to scrape our variables of interest (i.e., `id`, `name`, `address`, `city`, `state`, `zip`, `country`, `phone`, `latitude`, and `longitude`) from each store URL.
+Given this structure, we can create a function called `get_store_info()` to scrape the variables of interest (i.e., `id`, `name`, `address`, `city`, `state`, `zip`, `country`, `phone`, `latitude`, and `longitude`) from each store URL.
 
 ``` r
 get_store_info <- function(x){
@@ -134,7 +134,7 @@ get_store_info <- function(x){
 }
 ```
 
-With `get_store_info()` defined, we can use it to scrape the store info we're interested in from `store_info`. The `pblapply()` function will loop `get_store_info()` through the store URLs in `store_urls` and give us a progress bar so we can gauge how long the scraping will take (should be ~35 minutes).
+With `get_store_info()` defined, we can use it to scrape the store info we're interested in using `store_info`. The `pblapply()` function will loop `get_store_info()` through the store URLs in `store_urls` and give us a progress bar so we can gauge how long the scraping will take (should be ~35 minutes).
 
 ``` r
 store_info <- pblapply(store_urls, get_store_info)
@@ -145,8 +145,7 @@ Once that finishes, we're almost done! What's left is combining the rows of `sto
 ``` r
 dsg_stores <- do.call(rbind, store_info) %>% 
     as_tibble() %>% 
-    distinct() %>% 
-    filter(!is.na(id))
+    distinct()
 ```
 
 Finally, let's write the data to a .csv file called "dsg\_stores.csv" that can later be wrangled, transformed, visualized, and modeled.
