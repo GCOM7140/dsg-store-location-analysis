@@ -66,47 +66,7 @@ Now we have a vector of URLs for every Dick's Sporting Goods store in the US. Fr
 
 ------------------------------------------------------------------------
 
-"@id":"447", <br /> "name": "Dick's Sporting Goods",
-
-"address":{
-
-"@type":"PostalAddress",
-
-"streetAddress":"9204 STONY POINT PKWY",
-
-"addressLocality":"RICHMOND",
-
-"addressRegion":"VA",
-
-"postalCode":"23235",
-
-"addressCountry":"US"
-
-},
-
-"containedIn":"stony point fashion park",
-
-"geo":{
-
-"@type":"GeoCoordinates",
-
-"latitude":37.5484,
-
-"longitude":-77.5726
-
-},
-
-"branchOf": {
-
-"name":"Dicks Sporting Goods",
-
-"url": "<http://www.dickssportinggoods.com/home/index.jsp>"
-
-},
-
-"url":"<http://stores.dickssportinggoods.com/va/richmond/447>",
-
-"telephone":"804-253-0800",
+"@id":"447", <br /> "name": "Dick's Sporting Goods", <br /> "address":{ <br /> "@type":"PostalAddress", <br /> "streetAddress":"9204 STONY POINT PKWY", <br /> "addressLocality":"RICHMOND", <br /> "addressRegion":"VA", <br /> "postalCode":"23235", <br /> "addressCountry":"US" <br /> }, <br /> "containedIn":"stony point fashion park", <br /> "geo":{ <br /> "@type":"GeoCoordinates", <br /> "latitude":37.5484, <br /> "longitude":-77.5726 <br /> }, <br /> "branchOf": { <br /> "name":"Dicks Sporting Goods", <br /> "url": "<http://www.dickssportinggoods.com/home/index.jsp>" <br /> }, <br /> "url":"<http://stores.dickssportinggoods.com/va/richmond/447>", <br /> "telephone":"804-253-0800", <br />
 
 ------------------------------------------------------------------------
 
