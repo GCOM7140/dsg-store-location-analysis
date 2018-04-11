@@ -1,8 +1,7 @@
 Where in the US are Dick’s Sporting Goods Stores?
 ================
 
-[Clay Ford](https://github.com/clayford) and [Jeff Boichuk](https://github.com/jeffboichuk)
-April 10, 2018
+[Clay Ford](https://github.com/clayford) and [Jeff Boichuk](https://github.com/jeffboichuk) <br /> April 10, 2018
 
 The following script can be used to scrape [this website](https://stores.dickssportinggoods.com/) and create a database of addresses for Dick's Sporting Goods stores in the United States. Let's begin by loading the libraries we're going to use.
 
@@ -31,6 +30,13 @@ state_urls <- get_urls("http://stores.dickssportinggoods.com/")
 head(state_urls)
 ```
 
+    ## [1] "https://stores.dickssportinggoods.com/al/"
+    ## [2] "https://stores.dickssportinggoods.com/ar/"
+    ## [3] "https://stores.dickssportinggoods.com/az/"
+    ## [4] "https://stores.dickssportinggoods.com/ca/"
+    ## [5] "https://stores.dickssportinggoods.com/co/"
+    ## [6] "https://stores.dickssportinggoods.com/ct/"
+
 Let's now use `get_urls()` to scrape the city URLs that can be found at each State URL of `state_urls`. The `lapply()` function allows us to loop `get_urls()` through the State URLs in `state_urls`. Scraping the store URLs will likely take a minute or so to run.
 
 ``` r
@@ -39,6 +45,13 @@ city_urls <- lapply(state_urls, get_urls) %>% unlist()
 
 head(city_urls)
 ```
+
+    ## [1] "https://stores.dickssportinggoods.com/al/alabaster/" 
+    ## [2] "https://stores.dickssportinggoods.com/al/birmingham/"
+    ## [3] "https://stores.dickssportinggoods.com/al/cullman/"   
+    ## [4] "https://stores.dickssportinggoods.com/al/daphne/"    
+    ## [5] "https://stores.dickssportinggoods.com/al/dothan/"    
+    ## [6] "https://stores.dickssportinggoods.com/al/florence/"
 
 Now let's create a second function called `get_urls2()`. We'll use this function to scrape store URLs from the city URLs in `city_urls`.
 
@@ -61,6 +74,13 @@ store_urls <- pblapply(city_urls, get_urls2) %>% unlist()
 
 head(store_urls)
 ```
+
+    ## [1] "https://stores.dickssportinggoods.com/al/alabaster/1078/"
+    ## [2] "https://stores.dickssportinggoods.com/al/birmingham/330/"
+    ## [3] "https://stores.dickssportinggoods.com/al/cullman/1161/"  
+    ## [4] "https://stores.dickssportinggoods.com/al/daphne/617/"    
+    ## [5] "https://stores.dickssportinggoods.com/al/dothan/337/"    
+    ## [6] "https://stores.dickssportinggoods.com/al/florence/4626/"
 
 Now we have a vector of URLs for every Dick's Sporting Goods store in the US. From these websites, we can scrape address and geo-location information. How about we scrape each store's id, name, address, city, state, zip, country, phone, latitude, and longitude? Here's the code we're interested in scraping for one of [Richmond's locations](http://stores.dickssportinggoods.com/va/richmond/):
 
