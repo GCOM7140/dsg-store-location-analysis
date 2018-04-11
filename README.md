@@ -66,8 +66,7 @@ Now we have a vector of URLs for every Dick's Sporting Goods store in the US. Fr
 
 ------------------------------------------------------------------------
 
-"@id":"447",
-"name": "Dick's Sporting Goods",
+"@id":"447", <br /> "name": "Dick's Sporting Goods",
 
 "address":{
 
