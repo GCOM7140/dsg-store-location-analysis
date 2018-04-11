@@ -1,4 +1,4 @@
-Where in the US are Dick’s Sporting Goods Stores?
+Where in the U.S. are Dick’s Sporting Goods Stores?
 ================
 
 [Clay Ford](https://github.com/clayford) and [Jeff Boichuk](https://github.com/jeffboichuk) <br /> April 10, 2018
@@ -37,7 +37,7 @@ head(state_urls)
     ## [5] "https://stores.dickssportinggoods.com/co/"
     ## [6] "https://stores.dickssportinggoods.com/ct/"
 
-Let's now use `get_urls()` to scrape the city URLs that can be found at each State URL of `state_urls`. The `lapply()` function allows us to loop `get_urls()` through the State URLs in `state_urls`. Scraping the store URLs will likely take a minute or so to run.
+Let's now use `get_urls()` to scrape the city URLs that can be found at each State URL of `state_urls`. The `lapply()` function allows us to loop `get_urls()` through the State URLs in `state_urls`. Scraping the city URLs will likely take a minute or so to run.
 
 ``` r
 # scraping city URLs should take about a minute to run
@@ -82,7 +82,7 @@ head(store_urls)
     ## [5] "https://stores.dickssportinggoods.com/al/dothan/337/"    
     ## [6] "https://stores.dickssportinggoods.com/al/florence/4626/"
 
-Now we have a vector of URLs for every Dick's Sporting Goods store in the US. From these websites, we can scrape address and geo-location information. How about we scrape each store's id, name, address, city, state, zip, country, phone, latitude, and longitude? Here's the code we're interested in scraping for one of [Richmond's locations](http://stores.dickssportinggoods.com/va/richmond/):
+Now we have a vector of URLs for every Dick's Sporting Goods store in the US. With these URLs, we can scrape address and geo-location information. How about we scrape each store's id, name, address, city, state, zip, country, phone number, latitude, and longitude? Here's the information we're interested in scraping for one of [Richmond's locations](http://stores.dickssportinggoods.com/va/richmond/):
 
 ------------------------------------------------------------------------
 
@@ -133,21 +133,22 @@ get_store_info <- function(x){
 }
 ```
 
-With `get_store_info()` defined, we can use it to scrape the store info we're interested in using `store_info`. The `pblapply()` function will loop `get_store_info()` through the store URLs in `store_urls` and give us a progress bar so we can gauge how long the scraping will take (should be ~35 minutes).
+With `get_store_info()` defined, we can use it to scrape the store info we're interested in. The `pblapply()` function will loop `get_store_info()` through the store URLs in `store_urls` and give us a progress bar so we can gauge how long the scraping will take (should be ~35 minutes).
 
 ``` r
 store_info <- pblapply(store_urls, get_store_info)
 ```
 
-Once that finishes, we're almost done! What's left is combining the rows of `store_info` into a tibble and doing some clean up. Some of the stores got scraped multiple times, which `distinct()` can handle.
+Once that finishes, we're almost done! What's left is combining the rows of `store_info` into a tibble and doing some clean up. Some of the stores got scraped multiple times, which `distinct()` and `filter(!is.na(id))` can handle.
 
 ``` r
 dsg_stores <- do.call(rbind, store_info) %>% 
     as_tibble() %>% 
-    distinct()
+    distinct() %>% 
+    filter(!is.na(id))
 ```
 
-Finally, let's write the data to a .csv file called "dsg\_stores.csv" that can later be wrangled, transformed, visualized, and modeled.
+Finally, let's write the data to a .csv file called "dsg\_stores.csv" that can later be [wrangled](http://r4ds.had.co.nz/wrangle-intro.html), [transformed](http://r4ds.had.co.nz/transform.html), [visualized](http://r4ds.had.co.nz/data-visualisation.html), and [modeled](http://r4ds.had.co.nz/model-basics.html).
 
 ``` r
 write_csv(dsg_stores, here("data", "dsg_stores.csv"))
